@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   gazebo:
-    image: ros1_cli:latest
+    image: ros1_ci:latest
     build:
       context: .
       dockerfile: Dockerfile     
@@ -18,7 +18,7 @@ services:
     command: bash -c 'roslaunch tortoisebot_gazebo tortoisebot_playground.launch'
   
   test:
-    image: ros1_cli:latest
+    image: ros1_ci:latest
     build:
       context: .
       dockerfile: Dockerfile

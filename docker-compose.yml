@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+  gazebo:
+    image: ros1_cli:latest
+    build:
+      context: .
+      dockerfile: Dockerfile     
+    restart: always
+    hostname: master
+    environment: 
+      - DISPLAY=${DISPLAY}
+      - ROS_HOSTNAME=master
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    privileged: true
+    networks:
+      - ros1_net
+    command: roslaunch tortoisebot_gazebo tortoisebot_playground.launch
+  
+  test:
+    image: ros1_cli:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    environment:
+      - ROS_MASTER_URI=http://master:11311
+      - ROS_HOSTNAME=test
+    depends_on: 
+      - gazebo
+    privileged: true
+    networks:
+      - ros1_net
+    command: bash -c "sleep 5 && rostest tortoisebot_waypoints waypoints_test.test --reuse-master"
+  
+networks:
+  ros1_net:

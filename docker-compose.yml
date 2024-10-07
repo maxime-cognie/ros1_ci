@@ -15,7 +15,10 @@ services:
     privileged: true
     networks:
       - ros1_net
-    command: roslaunch tortoisebot_gazebo tortoisebot_playground.launch
+    command: bash -c "roslaunch tortoisebot_gazebo tortoisebot_playground.launch &
+                      GAZEBO_ID=$! &&
+                      sleep 30s &&
+                      kill $GAZEBO_ID"
   
   test:
     image: ros1_cli:latest

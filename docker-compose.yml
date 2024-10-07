@@ -15,10 +15,7 @@ services:
     privileged: true
     networks:
       - ros1_net
-    command: bash -c "roslaunch tortoisebot_gazebo tortoisebot_playground.launch &\
-	      GAZEBO_ID=$! &&\
-        sleep 30s &&\
-        kill $GAZEBO_ID"
+    command: bash -c 'roslaunch tortoisebot_gazebo tortoisebot_playground.launch'
   
   test:
     image: ros1_cli:latest
@@ -34,7 +31,7 @@ services:
     privileged: true
     networks:
       - ros1_net
-    command: bash -c "sleep 5 && rostest tortoisebot_waypoints waypoints_test.test --reuse-master"
+    command: bash -c "sleep 10 && rostest tortoisebot_waypoints waypoints_test.test --reuse-master"
   
 networks:
   ros1_net:
